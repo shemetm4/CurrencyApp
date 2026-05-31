@@ -1,0 +1,30 @@
+<Solution>
+  <Folder Name="/src/" />
+  <Folder Name="/src/ApiGateway/">
+    <Project Path="ApiGateway/ApiGateway.csproj" />
+  </Folder>
+  <Folder Name="/src/BackgroundServices/">
+    <Project Path="CurrencyBackgroundService/CurrencyBackgroundService.csproj" />
+    <Project Path="MigrationService/MigrationService.csproj" />
+  </Folder>
+  <Folder Name="/src/Services/" />
+  <Folder Name="/src/Services/FinanceService/">
+    <Project Path="FinanceService.API/FinanceService.API.csproj" />
+    <Project Path="FinanceService.Application/FinanceService.Application.csproj" />
+    <Project Path="FinanceService.Domain/FinanceService.Domain.csproj" />
+    <Project Path="FinanceService.Infrastructure/FinanceService.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/src/Services/UserService/">
+    <Project Path="UserService.API/UserService.API.csproj" />
+    <Project Path="UserService.Application/UserService.Application.csproj" />
+    <Project Path="UserService.Domain/UserService.Domain.csproj" />
+    <Project Path="UserService.Infrastructure/UserService.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/src/Shared/">
+    <Project Path="Shared.Domain/Shared.Domain.csproj" Id="dcbe641d-d952-4466-b5c7-db6557c54625" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="FinanceService.Tests/FinanceService.Tests.csproj" />
+    <Project Path="UserService.Tests/UserService.Tests.csproj" />
+  </Folder>
+</Solution>
