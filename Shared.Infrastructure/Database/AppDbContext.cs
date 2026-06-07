@@ -1,15 +1,18 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using UserService.Application.Interfaces;
-using UserService.Domain.Entities;
+﻿using FinanceService.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 using Shared.Domain.Entities;
+using Microsoft.Extensions.Logging;
+using UserService.Domain.Entities;
+using UserService.Application.Interfaces;
+using FinanceService.Application.Interfaces;
 
-namespace UserService.Infrastructure.Database;
+namespace Shared.Infrastructure.Database;
 
-public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options), IAppDbContext
+public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options), IUserDbContext, IFinanceDbContext
 {
-    public DbSet<User> Users { get; set; }
+    public DbSet<Currency> Currencies { get; set; }
     public DbSet<UserFavorite> UserFavorites { get; set; }
+    public DbSet<User> Users { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -23,3 +26,4 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
     }
 }
+

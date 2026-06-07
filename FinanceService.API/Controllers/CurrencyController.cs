@@ -6,6 +6,7 @@ using System.Security.Claims;
 
 namespace FinanceService.API.Controllers;
 
+// todo: review
 [ApiController]
 [Route("api/[controller]")]
 [Authorize]
@@ -15,8 +16,11 @@ public class CurrencyController(GetCurrenciesHandler getCurrenciesHandler) : Con
     public async Task<IActionResult> GetCurrencies()
     {
         var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        
         var currencies = await getCurrenciesHandler.HandleAsync(new GetCurrenciesQuery(userId));
+        
         var response = currencies.Select(c => new GetCurrenciesResponse(c.Id, c.Name, c.ExchangeRate));
+        
         return Ok(response);
     }
 }

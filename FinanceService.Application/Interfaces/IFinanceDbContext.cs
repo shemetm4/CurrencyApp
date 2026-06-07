@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FinanceService.Application.Interfaces;
 
-public interface IAppDbContext
+public interface IFinanceDbContext
 {
     DbSet<Currency> Currencies { get; }
     DbSet<UserFavorite> UserFavorites { get; }

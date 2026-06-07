@@ -7,12 +7,10 @@ using UserService.Application.Commands.RegisterUser;
 using UserService.Application.Commands.RemoveFavorite;
 using UserService.Application.Interfaces;
 using UserService.Application.Queries.LoginUser;
-using UserService.Domain.Interfaces;
-using UserService.Infrastructure.Database;
-using UserService.Infrastructure.Options;
+using Shared.Infrastructure.Database;
 using UserService.Infrastructure.Repositories;
 using UserService.Infrastructure.Services;
-using Shared.Domain.Options;
+using Shared.Infrastructure.Options;
 
 namespace UserService.API;
 
@@ -35,7 +33,7 @@ public static class Composer
             options.UseNpgsql(dbSettings.ConnectionString);
         });
 
-        services.AddScoped<IAppDbContext>(sp => sp.GetRequiredService<AppDbContext>());
+        services.AddScoped<IUserDbContext>(sp => sp.GetRequiredService<AppDbContext>());
 
         services.AddJwtAuth(configuration);
         services.AddHttpContextAccessor();

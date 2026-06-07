@@ -1,6 +1,5 @@
-﻿namespace Shared.Domain.Options;
+﻿namespace Shared.Infrastructure.Options;
 
-// todo: move options from Shared.Domain to Shared.Infrastructure
 public class JwtOptions
 {
     public required string Issuer { get; init; }

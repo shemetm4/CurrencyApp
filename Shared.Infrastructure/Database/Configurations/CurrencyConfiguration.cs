@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace FinanceService.Infrastructure.Database.Configurations;
+namespace Shared.Infrastructure.Database.Configurations;
 
 public class CurrencyConfiguration : IEntityTypeConfiguration<Currency>
 {

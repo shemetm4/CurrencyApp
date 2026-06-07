@@ -30,11 +30,14 @@ public class UserController(
     public async Task<IActionResult> Login([FromBody] LoginUserQuery query)
     {
         var token = await loginHandler.HandleAsync(query);
+
         if (token is null)
             return Unauthorized();
+
         return Ok(new { token });
     }
 
+    // todo: make real logout (blacklist for jwt tokens)
     [Authorize]
     [HttpPost("logout")]
     public IActionResult Logout()

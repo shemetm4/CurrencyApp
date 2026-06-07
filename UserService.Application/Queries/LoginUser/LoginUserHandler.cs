@@ -1,8 +1,9 @@
 ﻿using UserService.Application.Utils;
-using UserService.Domain.Interfaces;
+using UserService.Application.Interfaces;
 
 namespace UserService.Application.Queries.LoginUser;
 
+// todo: interface
 public class LoginUserHandler(IUserRepository userRepository, IJwtTokenGenerator jwtTokenGenerator)
 {
     public async Task<string?> HandleAsync(LoginUserQuery query)

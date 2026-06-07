@@ -22,6 +22,7 @@
   </Folder>
   <Folder Name="/src/Shared/">
     <Project Path="Shared.Domain/Shared.Domain.csproj" Id="dcbe641d-d952-4466-b5c7-db6557c54625" />
+    <Project Path="Shared.Infrastructure/Shared.Infrastructure.csproj" Id="e19a0070-82d3-4222-9677-d533a45a0c96" />
   </Folder>
   <Folder Name="/tests/">
     <Project Path="FinanceService.Tests/FinanceService.Tests.csproj" />

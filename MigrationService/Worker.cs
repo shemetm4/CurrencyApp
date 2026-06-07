@@ -1,24 +1,29 @@
-namespace MigrationService
+using Microsoft.EntityFrameworkCore;
+using Shared.Infrastructure.Database;
+
+namespace MigrationService;
+
+public class Worker(IServiceScopeFactory scopeFactory, ILogger<Worker> logger) : BackgroundService
 {
-    public class Worker : BackgroundService
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        private readonly ILogger<Worker> _logger;
+        logger.LogInformation("Starting database migration...");
 
-        public Worker(ILogger<Worker> logger)
+        try
         {
-            _logger = logger;
-        }
+            using var scope = scopeFactory.CreateScope();
 
-        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
-        {
-            while (!stoppingToken.IsCancellationRequested)
-            {
-                if (_logger.IsEnabled(LogLevel.Information))
-                {
-                    _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
-                }
-                await Task.Delay(1000, stoppingToken);
-            }
+            var DbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+            await DbContext.Database.MigrateAsync(stoppingToken);
+
+            logger.LogInformation("Migration completed successfully.");
         }
+        catch(Exception ex)
+        {
+            logger.LogError(ex, "Migration failed!");
+            throw;
+        }
+        
     }
 }

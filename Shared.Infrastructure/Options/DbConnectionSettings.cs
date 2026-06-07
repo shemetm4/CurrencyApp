@@ -1,4 +1,4 @@
-﻿namespace FinanceService.Infrastructure.Options;
+﻿namespace Shared.Infrastructure.Options;
 
 public class DbConnectionSettings
 {

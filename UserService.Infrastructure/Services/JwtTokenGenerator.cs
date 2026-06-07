@@ -3,11 +3,12 @@ using System.Security.Claims;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using UserService.Domain.Entities;
-using UserService.Domain.Interfaces;
-using Shared.Domain.Options;
+using UserService.Application.Interfaces;
+using Shared.Infrastructure.Options;
 
 namespace UserService.Infrastructure.Services;
 
+// todo: review
 public class JwtTokenGenerator(IOptions<JwtOptions> options) : IJwtTokenGenerator
 {
     private readonly JwtOptions _options = options.Value;

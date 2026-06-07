@@ -1,17 +1,16 @@
 ﻿using FinanceService.Application.Interfaces;
 using FinanceService.Application.Queries.GetCurrencies;
-using FinanceService.Domain.Interfaces;
-using FinanceService.Infrastructure.Database;
-using FinanceService.Infrastructure.Options;
+using Shared.Infrastructure.Database;
 using FinanceService.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using Shared.Domain.Options;
+using Shared.Infrastructure.Options;
 
 namespace FinanceService.API;
 
+// todo: review
 public static class Composer
 {
     public static IServiceCollection AddInfrastructure(
@@ -31,7 +30,7 @@ public static class Composer
             options.UseNpgsql(dbSettings.ConnectionString);
         });
 
-        services.AddScoped<IAppDbContext>(sp => sp.GetRequiredService<AppDbContext>());
+        services.AddScoped<IFinanceDbContext>(sp => sp.GetRequiredService<AppDbContext>());
 
         services.AddJwtAuth(configuration);
         services.AddHttpContextAccessor();
