@@ -1,0 +1,98 @@
+services:
+  postgres:
+    image: postgres
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=currencyapp
+    volumes:
+      - currencyappdata:/var/lib/postgresql
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  migration-service:
+    build:
+      context: .
+      dockerfile: MigrationService/Dockerfile
+    environment:
+      - DbConnectionSettings__Host=postgres
+      - DbConnectionSettings__Port=5432
+      - DbConnectionSettings__Username=postgres
+      - DbConnectionSettings__Password=postgres
+      - DbConnectionSettings__Database=currencyapp
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  user-service:
+    build:
+      context: .
+      dockerfile: UserService.API/Dockerfile
+    environment:
+      - DbConnectionSettings__Host=postgres
+      - DbConnectionSettings__Port=5432
+      - DbConnectionSettings__Username=postgres
+      - DbConnectionSettings__Password=postgres
+      - DbConnectionSettings__Database=currencyapp
+      - JwtOptions__Issuer=CurrencyApp
+      - JwtOptions__Audience=CurrencyApp
+      - JwtOptions__Secret=QXBwQ3VycjQ1NmVuYyF5U2VjMTIzcmV0U3VwZXJLZXk=
+    ports:
+      - "5221:8080"
+    depends_on:
+      migration-service:
+        condition: service_completed_successfully
+
+  finance-service:
+    build:
+      context: .
+      dockerfile: FinanceService.API/Dockerfile
+    environment:
+      - DbConnectionSettings__Host=postgres
+      - DbConnectionSettings__Port=5432
+      - DbConnectionSettings__Username=postgres
+      - DbConnectionSettings__Password=postgres
+      - DbConnectionSettings__Database=currencyapp
+      - JwtOptions__Issuer=CurrencyApp
+      - JwtOptions__Audience=CurrencyApp
+      - JwtOptions__Secret=QXBwQ3VycjQ1NmVuYyF5U2VjMTIzcmV0U3VwZXJLZXk=
+    ports:
+      - "5036:8080"
+    depends_on:
+      migration-service:
+        condition: service_completed_successfully
+
+  currency-background-service:
+    build:
+      context: .
+      dockerfile: CurrencyBackgroundService/Dockerfile
+    environment:
+      - DbConnectionSettings__Host=postgres
+      - DbConnectionSettings__Port=5432
+      - DbConnectionSettings__Username=postgres
+      - DbConnectionSettings__Password=postgres
+      - DbConnectionSettings__Database=currencyapp
+      - WorkerSettings__CbrUrl=http://www.cbr.ru/scripts/XML_daily.asp
+      - WorkerSettings__UpdateIntervalHours=24
+    depends_on:
+      migration-service:
+        condition: service_completed_successfully
+
+  api-gateway:
+    build:
+      context: .
+      dockerfile: ApiGateway/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Docker
+    ports:
+      - "5105:8080"
+    depends_on:
+      - user-service
+      - finance-service
+
+volumes:
+  currencyappdata:

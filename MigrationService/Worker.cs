@@ -13,17 +13,18 @@ public class Worker(IServiceScopeFactory scopeFactory, ILogger<Worker> logger) :
         {
             using var scope = scopeFactory.CreateScope();
 
-            var DbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-            await DbContext.Database.MigrateAsync(stoppingToken);
+            await dbContext.Database.MigrateAsync(stoppingToken);
 
             logger.LogInformation("Migration completed successfully.");
+
+            Environment.Exit(0);
         }
         catch(Exception ex)
         {
             logger.LogError(ex, "Migration failed!");
             throw;
         }
-        
     }
 }

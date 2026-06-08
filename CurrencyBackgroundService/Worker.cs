@@ -39,6 +39,7 @@ public class Worker(
         Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
         using var httpClient = new HttpClient();
+        httpClient.DefaultRequestHeaders.Add("User-Agent", _settings.UserAgent);
 
         var response = await httpClient.GetByteArrayAsync(_settings.CbrUrl, stoppingToken);
 
