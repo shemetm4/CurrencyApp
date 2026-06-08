@@ -1,0 +1,29 @@
+# Build artifacts
+**/bin/
+**/obj/
+**/out/
+**/TestResults/
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# IDE / editor
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Docker
+**/Dockerfile
+**/.dockerignore
+docker-compose*.yml
+docker-compose*.yaml
+
+# Misc
+**/*.md
+**/.env
