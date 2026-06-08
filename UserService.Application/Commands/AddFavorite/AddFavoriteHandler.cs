@@ -2,8 +2,7 @@
 
 namespace UserService.Application.Commands.AddFavorite;
 
-// todo: interface
-public class AddFavoriteHandler(IUserRepository userRepository)
+public class AddFavoriteHandler(IUserRepository userRepository) : IAddFavoriteHandler
 {
     public async Task HandleAsync(AddFavoriteCommand command)
     {

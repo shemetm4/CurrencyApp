@@ -3,8 +3,7 @@ using FinanceService.Domain.Entities;
 
 namespace FinanceService.Application.Queries.GetCurrencies;
 
-// todo: interface
-public class GetCurrenciesHandler(ICurrencyRepository currencyRepository)
+public class GetCurrenciesHandler(ICurrencyRepository currencyRepository) : IGetCurrenciesHandler
 {
     public async Task<IEnumerable<Currency>> HandleAsync(GetCurrenciesQuery query)
     {

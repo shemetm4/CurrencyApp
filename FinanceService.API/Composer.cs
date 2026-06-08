@@ -1,16 +1,18 @@
 ﻿using FinanceService.Application.Interfaces;
 using FinanceService.Application.Queries.GetCurrencies;
-using Shared.Infrastructure.Database;
 using FinanceService.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Shared.Application.Interfaces;
+using Shared.Infrastructure.Database;
 using Shared.Infrastructure.Options;
+using Shared.Infrastructure.Repositories;
+using FinanceService.API.Middleware;
 
 namespace FinanceService.API;
 
-// todo: review
 public static class Composer
 {
     public static IServiceCollection AddInfrastructure(
@@ -32,6 +34,8 @@ public static class Composer
 
         services.AddScoped<IFinanceDbContext>(sp => sp.GetRequiredService<AppDbContext>());
 
+        services.AddExceptionHandler<ExceptionHandler>();
+
         services.AddJwtAuth(configuration);
         services.AddHttpContextAccessor();
 
@@ -41,7 +45,8 @@ public static class Composer
     public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
         services.AddScoped<ICurrencyRepository, CurrencyRepository>();
-        services.AddScoped<GetCurrenciesHandler>();
+        services.AddScoped<IGetCurrenciesHandler, GetCurrenciesHandler>();
+        services.AddScoped<ITokenBlacklistRepository, TokenBlacklistRepository>();
 
         return services;
     }

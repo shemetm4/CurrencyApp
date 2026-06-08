@@ -2,8 +2,7 @@
 
 namespace UserService.Application.Commands.RemoveFavorite;
 
-// todo: interface
-public class RemoveFavoriteHandler(IUserRepository userRepository)
+public class RemoveFavoriteHandler(IUserRepository userRepository) : IRemoveFavoriteHandler
 {
     public async Task HandleAsync(RemoveFavoriteCommand command)
     {

@@ -13,6 +13,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     public DbSet<Currency> Currencies { get; set; }
     public DbSet<UserFavorite> UserFavorites { get; set; }
     public DbSet<User> Users { get; set; }
+    public DbSet<BlacklistedToken> BlacklistedTokens { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

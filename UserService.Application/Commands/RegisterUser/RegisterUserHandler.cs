@@ -1,18 +1,18 @@
-﻿using UserService.Application.Utils;
+﻿using UserService.Application.Interfaces;
+using UserService.Application.Utils;
 using UserService.Domain.Entities;
-using UserService.Application.Interfaces;
+using UserService.Domain.Exceptions;
 
 namespace UserService.Application.Commands.RegisterUser;
 
-// todo: interface
-public class RegisterUserHandler(IUserRepository userRepository)
+public class RegisterUserHandler(IUserRepository userRepository) : IRegisterUserHandler
 {
-    public async Task<bool> HandleAsync(RegisterUserCommand command)
+    public async Task HandleAsync(RegisterUserCommand command)
     {
         var existingUser = await userRepository.GetUserByNameAsync(command.Name);
-
+        
         if (existingUser is not null)
-            return false;
+            throw new UserAlreadyExistsException(command.Name);
 
         var user = new User
         {
@@ -21,7 +21,5 @@ public class RegisterUserHandler(IUserRepository userRepository)
         };
 
         await userRepository.AddUserAsync(user);
-
-        return true;
     }
 }

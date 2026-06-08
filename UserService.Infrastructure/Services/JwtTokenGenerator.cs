@@ -8,7 +8,6 @@ using Shared.Infrastructure.Options;
 
 namespace UserService.Infrastructure.Services;
 
-// todo: review
 public class JwtTokenGenerator(IOptions<JwtOptions> options) : IJwtTokenGenerator
 {
     private readonly JwtOptions _options = options.Value;

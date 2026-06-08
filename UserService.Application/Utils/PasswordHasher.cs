@@ -3,7 +3,6 @@ using System.Text;
 
 namespace UserService.Application.Utils;
 
-// todo: interface
 public static class PasswordHasher
 {
     private const int HashingIterations = 100000;

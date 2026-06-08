@@ -11,6 +11,8 @@ using Shared.Infrastructure.Database;
 using UserService.Infrastructure.Repositories;
 using UserService.Infrastructure.Services;
 using Shared.Infrastructure.Options;
+using Shared.Infrastructure.Repositories;
+using Shared.Application.Interfaces;
 
 namespace UserService.API;
 
@@ -35,6 +37,8 @@ public static class Composer
 
         services.AddScoped<IUserDbContext>(sp => sp.GetRequiredService<AppDbContext>());
 
+        services.AddExceptionHandler<ExceptionHandler>();
+
         services.AddJwtAuth(configuration);
         services.AddHttpContextAccessor();
 
@@ -44,12 +48,14 @@ public static class Composer
     public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
         services.AddScoped<IUserRepository, UserRepository>();
-        services.AddTransient<IJwtTokenGenerator, JwtTokenGenerator>();
 
-        services.AddScoped<RegisterUserHandler>();
-        services.AddScoped<LoginUserHandler>();
-        services.AddScoped<AddFavoriteHandler>();
-        services.AddScoped<RemoveFavoriteHandler>();
+        services.AddTransient<IJwtTokenGenerator, JwtTokenGenerator>();
+        
+        services.AddScoped<ITokenBlacklistRepository, TokenBlacklistRepository>();
+        services.AddScoped<IRegisterUserHandler, RegisterUserHandler>();
+        services.AddScoped<ILoginUserHandler, LoginUserHandler>();
+        services.AddScoped<IAddFavoriteHandler, AddFavoriteHandler>();
+        services.AddScoped<IRemoveFavoriteHandler, RemoveFavoriteHandler>();
 
         return services;
     }

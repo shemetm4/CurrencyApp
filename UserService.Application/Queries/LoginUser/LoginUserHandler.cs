@@ -1,20 +1,20 @@
-﻿using UserService.Application.Utils;
-using UserService.Application.Interfaces;
+﻿using UserService.Application.Interfaces;
+using UserService.Application.Utils;
+using UserService.Domain.Exceptions;
 
 namespace UserService.Application.Queries.LoginUser;
 
-// todo: interface
-public class LoginUserHandler(IUserRepository userRepository, IJwtTokenGenerator jwtTokenGenerator)
+public class LoginUserHandler(IUserRepository userRepository, IJwtTokenGenerator jwtTokenGenerator) : ILoginUserHandler
 {
-    public async Task<string?> HandleAsync(LoginUserQuery query)
+    public async Task<string> HandleAsync(LoginUserQuery query)
     {
         var user = await userRepository.GetUserByNameAsync(query.Name);
 
         if (user is null)
-            return null;
+            throw new InvalidCredentialsException();
 
         if (!PasswordHasher.VerifyPassword(user.Password, query.Password))
-            return null;
+            throw new InvalidCredentialsException();
 
         return jwtTokenGenerator.GenerateToken(user);
     }
